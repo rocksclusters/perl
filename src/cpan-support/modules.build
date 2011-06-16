@@ -1,0 +1,15 @@
+YAML
+HTML::Tagset
+Params::Util
+Sub::Install
+Encode::Locale
+File::Find::Rule
+LWP
+List::MoreUtils
+Path::Class
+Pod::POM
+Readonly
+Software::LicenseUtils
+Text::Autoformat
+Template
+Tk
