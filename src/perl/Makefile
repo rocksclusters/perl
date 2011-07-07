@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.1 2011/06/16 18:00:28 anoop Exp $
+# $Id: Makefile,v 1.2 2011/07/07 00:47:39 anoop Exp $
 #
 # @Copyright@
 # 
@@ -54,6 +54,9 @@
 # @Copyright@
 #
 # $Log: Makefile,v $
+# Revision 1.2  2011/07/07 00:47:39  anoop
+# Version Bump
+#
 # Revision 1.1  2011/06/16 18:00:28  anoop
 # Start of a perl roll
 #
@@ -69,7 +72,7 @@ build:
 	( 					\
 		cd $(ARCHIVE_NAME)-$(VERSION);	\
 		./Configure -Dprefix=$(PKGROOT) \
-			-Dusethreads -de;	\
+			-Dusethreads -des < /dev/null;	\
 		$(MAKE);			\
 	)
 	
