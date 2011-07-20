@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.2 2011/07/07 00:47:39 anoop Exp $
+# $Id: Makefile,v 1.3 2011/07/20 03:00:00 anoop Exp $
 #
 # @Copyright@
 # 
@@ -54,6 +54,17 @@
 # @Copyright@
 #
 # $Log: Makefile,v $
+# Revision 1.3  2011/07/20 03:00:00  anoop
+# - Patches for cpan2dist. The ignore_me function is now
+#   a callback function. This means libraries can access
+#   this function.
+# - Now cpan2dist does a slightly better job of honouring
+#   the ignore-lists even when the code is multiple levels
+#   deep.
+# - The CPANPLUS::Dist::Rocks module can now handle both
+#   Makefile.PL and Build.PL type build files for CPAN
+#   modules.
+#
 # Revision 1.2  2011/07/07 00:47:39  anoop
 # Version Bump
 #
@@ -69,6 +80,7 @@ include Rules.mk
 
 build:
 	gunzip -c $(ARCHIVE_NAME)-$(VERSION).$(TARBALL_POSTFIX) | $(TAR) -xf -
+	-(cd patch-files && find . -type f | grep -v CVS | cpio -pudv ../)
 	( 					\
 		cd $(ARCHIVE_NAME)-$(VERSION);	\
 		./Configure -Dprefix=$(PKGROOT) \

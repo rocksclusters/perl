@@ -22,6 +22,7 @@ use Data::Section -setup;
 use File::Basename;
 use File::Copy       qw{ copy };
 use File::Find::Rule;
+use File::Path	     qw{ make_path remove_tree };
 use IPC::Cmd         qw{ run can_run };
 use List::Util       qw{ first };
 use List::MoreUtils  qw{ uniq };
@@ -149,7 +150,7 @@ sub prepare {
         # FIXME: bump rpm release
     } 
     else {
-        msg( "writing specfile for '$self->distname'..." );
+        msg( "writing specfile for '".$status->distname."'..." );
     }
 
     $status->skiptest($skiptest);
@@ -279,14 +280,16 @@ sub install {
 
 sub _prepare_spec {
     my $self = shift @_;
-    
+    my $build_type = $self->_is_build_pl ? 'spec_build':'spec_make';
     # Prepare our template
     #my $tmpl = Template->new({ EVAL_PERL => 1 });
     my $tmpl = Template->new;
     
+    my $spec_content = '';
     # Process template into spec
+    foreach my $section ( ('spec_pre', $build_type, 'spec_post')){
     $tmpl->process(
-        $self->section_data('spec'),
+        $self->section_data($section),
         {
             status    => $self->status,
             module    => $self->parent,
@@ -294,11 +297,17 @@ sub _prepare_spec {
             date      => strftime("%a %b %d %Y", localtime),
             packager  => $PACKAGER,
             docfiles  => join(' ', @{ $self->_docfiles }),
-
             packagervers => $VERSION,
         },
-        $self->status->specpath,
-    );
+        \$spec_content);
+    }
+    make_path(dirname $self->status->specpath, {
+		verbose => 1,
+		mode	=> 0755,
+	});
+    open(my $fh, ">", $self->status->specpath);
+    print $fh $spec_content;
+    close $fh;
 }
 
 sub _package_exists {
@@ -471,10 +480,6 @@ sub _docfiles {
 }
 
 sub _is_module_build_compat {
-    # Don't return anything. This just discourages the build
-    # process from listing Module::Build as a dependency.
-    # This way we disable Module::Build from being built.
-    return;
     my $self   = shift @_;
     my $module = shift @_ || $self->parent;
 
@@ -482,6 +487,17 @@ sub _is_module_build_compat {
     my $content  = $makefile->slurp;
 
     return $content =~ /Module::Build::Compat/;
+}
+
+sub _is_build_pl {
+    my $self = shift @_;
+    my $module = shift @_ || $self->parent;
+
+    my $buildfile = file $module->_status->extract . '/Build.PL';
+    if ( -e $buildfile ){
+        return 1;
+    }
+    return 0;
 }
 
 sub _mk_pkg_name {
@@ -712,7 +728,7 @@ sub _module_summary {
 1;
 
 __DATA__
-__[ spec ]__
+__[ spec_pre ]__
 Name:       [% status.rpmname %] 
 Version:    [% status.distvers %] 
 Release:    [% status.rpmvers %]%{?dist}
@@ -743,6 +759,7 @@ BuildRequires: perl([% br %])[% IF (brs.$br != 0) %] >= [% brs.$br %][% END %]
 %prep
 %setup -q -n [% status.distname %]-%{version}
 
+__[ spec_make ]__
 %build
 [% IF (!status.is_noarch) -%]
 %{__perl} Makefile.PL INSTALLDIRS=site OPTIMIZE="%{optflags}"
@@ -768,6 +785,29 @@ find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
 make test
 [% END -%]
 
+__[ spec_build ]__
+%build
+%{__perl} Build.PL
+%{__perl} Build
+
+%install
+rm -rf %{buildroot}
+%{__perl} Build install --destdir %{buildroot}
+
+find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
+[% IF (!status.is_noarch) -%]
+find %{buildroot} -type f -name '*.bs' -a -size 0 -exec rm -f {} ';'
+[% END -%]
+find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
+
+%{_fixperms} %{buildroot}/*
+
+%check
+[% IF (status.skiptest == 0) -%]
+%{__perl} Build test
+[% END -%]
+
+__[ spec_post ]__
 %clean
 rm -rf %{buildroot} 
 
