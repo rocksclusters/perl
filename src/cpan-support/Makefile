@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.1 2011/06/16 18:00:28 anoop Exp $
+# $Id: Makefile,v 1.2 2011/07/20 03:04:45 anoop Exp $
 
 # @Copyright@
 # 
@@ -54,6 +54,10 @@
 # @Copyright@
 
 # $Log: Makefile,v $
+# Revision 1.2  2011/07/20 03:04:45  anoop
+# Update ignorelists dynamically
+# Make the sed parsing a bit more accurate
+#
 # Revision 1.1  2011/06/16 18:00:28  anoop
 # Start of a perl roll
 #
@@ -104,21 +108,21 @@ build:
 
 # Use modules.build and modules.ignore to convert from CPAN to Rocks RPM
 install::
-	/opt/perl/bin/cpan2dist --format CPANPLUS::Dist::Rocks	\
-	--ignorelist modules.ignore --buildprereq --force	\
-	--verbose --install --modulelist modules.build < /dev/null; 
-#	cp modules.ignore modules.ignore.tmp
-#	cat modules.build | while read line; do \
-#		/opt/perl/bin/cpan2dist --format CPANPLUS::Dist::Rocks	\
-#		--ignorelist modules.ignore.tmp --buildprereq --force	\
-#		--install --verbose $$line < /dev/null;			\
-#		( find . -type f -name \*.rpm	\
-#		-exec rpm -qp --provides {} \;	\
-#		| grep ^perl\( | cut -f1 -d' ' |\
-#		sed -e 's/^perl(/^/g' -e 's/)$$/$$/g' \
-#		&& cat modules.ignore )| sort |	\
-#		uniq > modules.ignore.tmp;	\
-#	done
+	cp modules.ignore modules.ignore.tmp
+	cat modules.build | while read line; do \
+		/opt/perl/bin/cpan2dist --format CPANPLUS::Dist::Rocks	\
+		--ignorelist modules.ignore.tmp --buildprereq --force	\
+		--install --verbose $$line < /dev/null;			\
+		( find . -type f -name \*.rpm	\
+		-exec rpm -qp --provides {} \;	\
+		| grep -E "^perl\(" | sed -r -e \
+		's/^perl\(/^/' -e 's/\)[ \t]*(=[ \t]*[.0-9]+)*$/$/' \
+		&& cat modules.ignore )| sort |	\
+		uniq > modules.ignore.tmp;	\
+	done
+#	/opt/perl/bin/cpan2dist --format CPANPLUS::Dist::Rocks	\
+#	--ignorelist modules.ignore --buildprereq --force	\
+#	--verbose --install --modulelist modules.build < /dev/null; 
 
 # Transfer all the RPMS to the Roll RPM  repository.
 rpm:: build install
