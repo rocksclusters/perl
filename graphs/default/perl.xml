@@ -16,6 +16,9 @@
 
 	<changelog>
 	$Log: perl.xml,v $
+	Revision 1.2  2011/07/20 20:29:47  anoop
+	cpan-support finally in.
+	
 	Revision 1.1  2011/06/16 18:00:27  anoop
 	Start of a perl roll
 	
@@ -24,6 +27,7 @@
 	<!-- add edges here -->
 	<edge from="base">
 		<to>opt-perl</to>
+		<to>opt-perl-cpan-support</to>
 	</edge>
 
 </graph>

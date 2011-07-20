@@ -15,12 +15,16 @@
 
 	<changelog>
 	$Log: opt-perl.xml,v $
+	Revision 1.2  2011/07/20 20:29:47  anoop
+	cpan-support finally in.
+	
 	Revision 1.1  2011/06/16 18:00:27  anoop
 	Start of a perl roll
 	
 	</changelog>
 
 	<package>opt-perl</package>
+	<package>rocks-cpan</package>
 	<package>roll-perl-usersguide</package>
 
 

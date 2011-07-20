@@ -1,0 +1,57 @@
+<?xml version="1.0" standalone="no"?>
+<kickstart>
+	<copyright>
+	</copyright>
+
+	<changelog>
+	$Log: opt-perl-cpan-support.xml,v $
+	Revision 1.1  2011/07/20 20:29:47  anoop
+	cpan-support finally in.
+	
+	</changelog>
+
+	<description>
+	$Id: opt-perl-cpan-support.xml,v 1.1 2011/07/20 20:29:47 anoop Exp $
+	This maintains a list of all cpan support utilities that
+	enables the users to convert CPAN modules to Rocks RPMs
+	</description>
+
+	<package>opt-perl-Params-Util</package>
+	<package>opt-perl-HTML-Parser</package>
+	<package>opt-perl-Template-Toolkit</package>
+	<package>opt-perl-Tk</package>
+	<package>opt-perl-List-MoreUtils</package>
+	<package>opt-perl-Text-Glob</package>
+	<package>opt-perl-Encode-Locale</package>
+	<package>opt-perl-Module-Signature</package>
+	<package>opt-perl-File-Find-Rule</package>
+	<package>opt-perl-HTTP-Negotiate</package>
+	<package>opt-perl-IPC-Run</package>
+	<package>opt-perl-HTTP-Message</package>
+	<package>opt-perl-HTTP-Date</package>
+	<package>opt-perl-Number-Compare</package>
+	<package>opt-perl-LWP-MediaTypes</package>
+	<package>opt-perl-Sub-Install</package>
+	<package>opt-perl-Readonly</package>
+	<package>opt-perl-URI</package>
+	<package>opt-perl-Text-Autoformat</package>
+	<package>opt-perl-Data-OptList</package>
+	<package>opt-perl-MRO-Compat</package>
+	<package>opt-perl-libwww-perl</package>
+	<package>opt-perl-YAML</package>
+	<package>opt-perl-Sub-Exporter</package>
+	<package>opt-perl-HTTP-Cookies</package>
+	<package>opt-perl-Pod-POM</package>
+	<package>opt-perl-Text-Reform</package>
+	<package>opt-perl-HTML-Tagset</package>
+	<package>opt-perl-Path-Class</package>
+	<package>opt-perl-Net-HTTP</package>
+	<package>opt-perl-File-Listing</package>
+	<package>opt-perl-WWW-RobotRules</package>
+	<package>opt-perl-HTTP-Daemon</package>
+	<package>opt-perl-Text-Template</package>
+	<package>opt-perl-File-Slurp</package>
+	<package>opt-perl-AppConfig</package>
+	<package>opt-perl-Data-Section</package>
+	<package>opt-perl-Software-License</package>
+</kickstart>
