@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.3 2011/07/20 06:34:18 anoop Exp $
+# $Id: Makefile,v 1.4 2011/07/20 20:17:13 anoop Exp $
 
 # @Copyright@
 # 
@@ -54,6 +54,10 @@
 # @Copyright@
 
 # $Log: Makefile,v $
+# Revision 1.4  2011/07/20 20:17:13  anoop
+# Separate bootstrap and build lists.
+# This way bootstrap takes less time than build
+#
 # Revision 1.3  2011/07/20 06:34:18  anoop
 # Bug fixes to Makefile. Make sed parsing a bit more accurate
 #
@@ -97,7 +101,7 @@ include $(REDHAT.ROOT)/Rules-perl.mk
 # for CPANPLUS::Dist::Rocks to function correctly
 # on a vanilla system
 bootstrap:
-	cat modules.build | while read line; do \
+	cat modules.bootstrap | while read line; do \
 		/opt/perl/bin/cpan $$line < /dev/null; \
 		done
 
@@ -142,6 +146,9 @@ rpm:: build install
 
 # Clean out everything that's not Makefile or modules.build or CVS
 clean::
-	find * -prune ! -name CVS ! -name Makefile -a \
-		! -name modules.build  -exec rm -rf {} \;
+	find * -prune ! -name CVS \
+		! -name Makefile -a 	\
+		! -name modules.build -a\
+		! -name modules.bootstrap\
+		 -exec rm -rf {} \;
 	-rm -rf .gnupg

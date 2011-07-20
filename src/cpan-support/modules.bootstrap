@@ -1,16 +1,8 @@
-Params::Util
-Sub::Install
 Data::Section
 Module::Signature
 YAML
-HTML::Parser
-HTTP::Date
-HTTP::Message
 HTML::Tagset
-Encode::Locale
 File::Find::Rule
-URI
-LWP::MediaTypes
 LWP
 List::MoreUtils
 Path::Class
@@ -19,4 +11,3 @@ Readonly
 Software::LicenseUtils
 Text::Autoformat
 Template
-Tk
