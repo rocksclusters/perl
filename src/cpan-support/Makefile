@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.2 2011/07/20 03:04:45 anoop Exp $
+# $Id: Makefile,v 1.3 2011/07/20 06:34:18 anoop Exp $
 
 # @Copyright@
 # 
@@ -54,6 +54,9 @@
 # @Copyright@
 
 # $Log: Makefile,v $
+# Revision 1.3  2011/07/20 06:34:18  anoop
+# Bug fixes to Makefile. Make sed parsing a bit more accurate
+#
 # Revision 1.2  2011/07/20 03:04:45  anoop
 # Update ignorelists dynamically
 # Make the sed parsing a bit more accurate
@@ -102,9 +105,10 @@ bootstrap:
 # a part of opt-perl. This is done by creating modules.ignore 
 build:
 	rpm -q --provides opt-perl | \
-		grep ^perl\( | cut -f1 -d' ' |		\
-		sed -e 's/^perl(/^/g' -e 's/)$$/$$/g' |	\
-		sort > modules.ignore;			\
+		 grep -E "^perl\(" | \
+		sed -r -e \
+		's/^perl\(/^/' -e 's/\)[ \t]*(=[ \t]*[.0-9]+)*$$/$$/' | \
+		sort > modules.ignore;
 
 # Use modules.build and modules.ignore to convert from CPAN to Rocks RPM
 install::
@@ -116,7 +120,7 @@ install::
 		( find . -type f -name \*.rpm	\
 		-exec rpm -qp --provides {} \;	\
 		| grep -E "^perl\(" | sed -r -e \
-		's/^perl\(/^/' -e 's/\)[ \t]*(=[ \t]*[.0-9]+)*$/$/' \
+		's/^perl\(/^/' -e 's/\)[ \t]*(=[ \t]*[.0-9]+)*$$/$$/' \
 		&& cat modules.ignore )| sort |	\
 		uniq > modules.ignore.tmp;	\
 	done
