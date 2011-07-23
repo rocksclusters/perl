@@ -7,12 +7,108 @@
 <title>Using the perl Roll</title>
 
 <para>
-Tutorials for using perl and its components are available
-from the <ulink url="http://link-here.html">
-perl web site</ulink>
+The version of perl installed with this release of the Perl Roll
+is Perl 5.14.1.
+</para>
+<para>
+The various CPAN modules that are included with this roll, are
+compiled and installed against the aforementioned version of Perl.
 </para>
 
+<para>
+Tutorials for using Perl and its components are available
+from the <ulink url="http://www.perl.org"> Perl site</ulink>
+and from <ulink url="http://www.cpan.org">CPAN</ulink>
+</para>
+
+<section id="perl-loc" xreflabel="Perl Installation Location">
+<title>Perl Location</title>
+
+<para>
+The Perl roll installs Perl 5.14.1 in <filename class="directory">/opt/perl</filename>.
+</para>
+<para>All the CPAN modules that are provided in the Perl roll are also installed
+in <filename class="directory">/opt/perl</filename>. 
+</para>
 </section>
 
+<section>
+<title>Creating RPM from CPAN modules</title>
+<para>The Perl roll introduces an experimental feature of creating Rocks RPMS from
+CPAN modules. We believe this is a better method of distributing CPAN modules across
+a cluster than using CPAN by hand on every single node that requires it.
+</para>
+
+<para>
+With the release of the Perl roll, both Makefile.PL and Build.PL methods of building
+and installing CPAN modules are supported.
+</para>
+
+<para>
+To build an RPM from CPAN, we will use the <command>cpan2dist</command> utility that
+comes with the core of Perl.
+</para>
+<para>To build an RPM from CPAN, we need to make sure that when running
+<command>cpan2dist</command>, we don't create RPMS for modules that are
+already installed on the system. So we create a file called <filename>modules.ignore</filename>
+that contains a list of all modules that we want to ignore during a build.
+</para>
+<para>
+The easiest way to create <filename>modules.ignore</filename> is to obtain information
+about installed modules from the RPMS that are already present and installed on
+the system.
+<screen>
+# for i in `rpm -qa | grep -G "^opt-perl"`; do	\
+	rpm -q --provides $i | grep -E "^perl\(" | \
+	sed -r -e 's/^perl\(/^/' -e 's/\)[ \t]*(=[ \t]*[.0-9]+)*$/$/';
+  done | sort  | uniq > modules.ignore
+</screen>
+</para>
+<para>
+Now that we have our ignore list, we can try to build an RPM from CPAN. For this
+example, we will use the Params::Validate module from CPAN.
+</para>
+<example><title>Running cpan2dist to create Rocks RPM</title>
+<programlisting><![CDATA[
+# /opt/perl/bin/cpan2dist --format CPANPLUS::Dist::Rocks  \
+	--ignorelist modules.ignore --buildprereq --force \
+	--verbose Params::Validate
+[MSG] Checking if source files are up to date
+[MSG] Updating source file '01mailrc.txt.gz'
+[MSG] Trying to get 'ftp://ftp.cpan.org/pub/CPAN/authors/01mailrc.txt.gz'
+[MSG] Updating source file '03modlist.data.gz'
+[MSG] Trying to get 'ftp://ftp.cpan.org/pub/CPAN/modules/03modlist.data.gz'
+[MSG] Updating source file '02packages.details.txt.gz'
+[MSG] Trying to get 'ftp://ftp.cpan.org/pub/CPAN/modules/02packages.details.txt.gz'
+[MSG] No '/export/cpan/cpanplus/custom-sources' dir, skipping custom sources
+[MSG] Rebuilding author tree, this might take a while
+[MSG] Rebuilding module tree, this might take a while
+[MSG] No '/export/cpan/cpanplus/custom-sources' dir, skipping custom sources
+[MSG] No '/export/cpan/cpanplus/custom-sources' dir, skipping custom sources
+[MSG] Writing compiled source information to disk. This might take a little while.
+[MSG] Trying to get 'ftp://ftp.cpan.org/pub/CPAN/authors/id/D/DR/DROLSKY/Params-Validate-1.00.tar.gz'
+[MSG] Trying to get 'ftp://ftp.cpan.org/pub/CPAN/authors/id/D/DR/DROLSKY/CHECKSUMS'
+[MSG] Checksum matches for 'Params-Validate-1.00.tar.gz'
+.........
+[MSG] RPM created successfully: /state/partition1/devel/misc/cpan/Params-Validate/x86_64/opt-perl-Params-Validate-1.00-0.x86_64.rpm
+Created 'CPANPLUS::Dist::Rocks' distribution for Params::Validate to:
+	/state/partition1/devel/misc/cpan/Params-Validate/x86_64/opt-perl-Params-Validate-1.00-0.x86_64.rpm
+]]></programlisting>
+</example>
+<para>When you see the last line that states that the Params::Validate RPM was
+created successfully, and its location, you may use the RPM to install the CPAN
+module across your entire cluster.
+</para>
+<para>The <command>cpan2dist</command> command in the above example has an option
+<computeroutput>--buildprereq</computeroutput>. This option builds any prerequisites
+that the module has, and creates RPMS for those prerequisites as well. These RPMS
+are in various subdirectories in your build directory.
+</para>
+<para>For more information about using the <command>cpan2dist</command> command, please
+run the <command>/opt/perl/bin/cpan2dist</command> command without any arguments.
+</para>
+</section>
+
+</section>
 
 </chapter>

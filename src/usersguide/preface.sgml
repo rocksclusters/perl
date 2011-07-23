@@ -3,14 +3,16 @@
 
 
 <para>
-The perl Roll installs and configures the ...
+The perl Roll installs the perl RPM, CPAN support utilities
+and various CPAN modules that are used for creating Rocks based
+RPMs from CPAN modules.
 </para>
 
 
 <para>
-Please visit the <ulink
-url="http://link-here.html">perl
-site</ulink> to learn more about their release and the individual
+Please visit the <ulink url="http://www.perl.org">Perl site</ulink>
+and the <ulink url="http://www.cpan.org">CPAN site</ulink>
+to learn more about their release and the individual
 software components.
 </para>
 
