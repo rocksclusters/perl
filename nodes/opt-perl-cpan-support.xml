@@ -1,17 +1,23 @@
 <?xml version="1.0" standalone="no"?>
 <kickstart>
 	<copyright>
+	Copyright (c) 2000 - 2011 The Regents of the University of California.
+	All rights reserved. Rocks(r) v5.4.3 www.rocksclusters.org
+	
 	</copyright>
 
 	<changelog>
 	$Log: opt-perl-cpan-support.xml,v $
+	Revision 1.2  2011/07/23 02:31:15  phil
+	Viper Copyright
+	
 	Revision 1.1  2011/07/20 20:29:47  anoop
 	cpan-support finally in.
 	
 	</changelog>
 
 	<description>
-	$Id: opt-perl-cpan-support.xml,v 1.1 2011/07/20 20:29:47 anoop Exp $
+	$Id: opt-perl-cpan-support.xml,v 1.2 2011/07/23 02:31:15 phil Exp $
 	This maintains a list of all cpan support utilities that
 	enables the users to convert CPAN modules to Rocks RPMs
 	</description>
