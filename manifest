@@ -5,6 +5,7 @@ opt-perl-Tk
 opt-perl-List-MoreUtils
 opt-perl-Text-Glob
 opt-perl-Encode-Locale
+opt-perl-ExtUtils-MakeMaker
 opt-perl-Module-Signature
 opt-perl-File-Find-Rule
 opt-perl-HTTP-Negotiate
