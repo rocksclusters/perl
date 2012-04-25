@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.5 2011/07/23 02:31:15 phil Exp $
+# $Id: Makefile,v 1.6 2012/04/25 02:05:01 phil Exp $
 
 # @Copyright@
 # 
@@ -54,6 +54,16 @@
 # @Copyright@
 
 # $Log: Makefile,v $
+# Revision 1.6  2012/04/25 02:05:01  phil
+# Perl sucks and here's why. The latest version of perl supplies MakeMaker
+# version 6.57, but some of the support packages require version 6.62.
+#
+# So we have to build newer version of MakeMaker. But MakeMaker is required to
+# build perl in the first place. Can you drop in the 6.62 tree into the
+# perl tree and update the source? Of course not.
+#
+# Instead, you have create an alternate package. But now the perl and makeMaker rpms collide.  basically, no win.  Having software rely on versions beyond the latest release is brain dead. Welcome to bio and perl code.
+#
 # Revision 1.5  2011/07/23 02:31:15  phil
 # Viper Copyright
 #
@@ -115,7 +125,7 @@ build:
 		 grep -E "^perl\(" | \
 		sed -r -e \
 		's/^perl\(/^/' -e 's/\)[ \t]*(=[ \t]*[.0-9]+)*$$/$$/' | \
-		sort > modules.ignore;
+		sort | grep -v ExtUtils::MakeMaker > modules.ignore;
 
 # Use modules.build and modules.ignore to convert from CPAN to Rocks RPM
 install::
