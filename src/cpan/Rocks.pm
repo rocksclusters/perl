@@ -744,6 +744,7 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define _mandir /opt/perl/share/man
 %define _docdir /opt/perl/share/doc
 Requires:  perl(perl) >= 5.14.0
+AutoReqProv: no
 [% IF status.is_noarch %]BuildArch:  noarch[% END %]
 
 [% brs = buildreqs; FOREACH br = brs.keys.sort -%]
