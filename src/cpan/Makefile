@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.4 2012/11/27 00:49:11 phil Exp $
+# $Id: Makefile,v 1.5 2013/01/22 22:13:58 clem Exp $
 
 # @Copyright@
 # 
@@ -55,6 +55,11 @@
 # @Copyright@
 
 # $Log: Makefile,v $
+# Revision 1.5  2013/01/22 22:13:58  clem
+# With this last fix the yum check repo should now be clean!!
+#
+# there was a missing dependency in opt-cpan which was wrong. I disabled it.
+#
 # Revision 1.4  2012/11/27 00:49:11  phil
 # Copyright Storm for Emerald Boa
 #
@@ -92,6 +97,9 @@ REDHAT.ROOT     = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 include $(REDHAT.ROOT)/Rules-perl.mk
+
+RPM.EXTRAS += "AutoReqProv: no"
+
 
 build:
 
