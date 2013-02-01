@@ -1,4 +1,6 @@
 ExtUtils::MakeMaker
+MRO::Compat
+Sub::Exporter
 Data::Section
 Module::Signature
 YAML
