@@ -338,7 +338,11 @@ sub _prepare_status {
     $status->distvers($module->package_version);
     $status->summary($self->_module_summary($module));
     $status->description(autoformat $self->_module_description($module));
-    $status->rpmvers('0');    # FIXME probably need make this malleable
+    if (exists $ENV{'RocksReleaseVersion'} && length $ENV{'RocksReleaseVersion'} > 0) {
+        $status->rpmvers($ENV{'RocksReleaseVersion'});
+    } else {
+        $status->rpmvers('0'); 
+    }
     $status->is_noarch($self->_is_noarch);
     $status->specpath($status->rpmdir . '/' . $status->rpmname . '.spec');
 
@@ -363,7 +367,7 @@ sub _build_rpm {
 
     $success = run(
         #command => "rpmbuild -ba --quiet $spec",
-        command => 'rpmbuild -bb '
+        command => 'rpmbuild -bb --nodeps '
             . qq{--define '_sourcedir $dir' }
             . qq{--define '_builddir $dir'  }
             . qq{--define '_srcrpmdir $dir' }
