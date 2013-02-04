@@ -1,2 +1,2 @@
 NAME	=	rocks-cpan
-RELEASE	=	1
+RELEASE	=	2
