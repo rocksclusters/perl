@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.8 2012/11/27 00:49:11 phil Exp $
+# $Id: Makefile,v 1.9 2013/02/05 01:17:12 clem Exp $
 
 # @Copyright@
 # 
@@ -55,6 +55,9 @@
 # @Copyright@
 
 # $Log: Makefile,v $
+# Revision 1.9  2013/02/05 01:17:12  clem
+# fix make clean so it doesnt wipe version.mk
+#
 # Revision 1.8  2012/11/27 00:49:11  phil
 # Copyright Storm for Emerald Boa
 #
@@ -117,6 +120,19 @@ MAKE.iscontrib = 1
 include Rules.mk
 include $(REDHAT.ROOT)/Rules-perl.mk
 
+
+
+
+# 
+# You can use now RocksReleaseVersion to set the release version of the RPMs
+# builded by cpan see below..
+#
+ifdef RELEASE
+RocksReleaseVersion = $(RELEASE)
+endif
+
+SEPARATOR = -------------------------------------------------------------
+
 # Target to install all the required CPAN modules
 # for CPANPLUS::Dist::Rocks to function correctly
 # on a vanilla system
@@ -138,11 +154,13 @@ build:
 install::
 	cp modules.ignore modules.ignore.tmp
 	cat modules.build | while read line; do \
+		echo $(SEPARATOR) building $$line $(SEPARATOR);\
 		/opt/perl/bin/cpan2dist --format CPANPLUS::Dist::Rocks	\
 		--ignorelist modules.ignore.tmp --buildprereq --force	\
 		--install --verbose $$line < /dev/null;			\
 		( find . -type f -name \*.rpm	\
-		-exec rpm -qp --provides {} \;	\
+		-exec rpm -qlp {} \;	\
+		|/usr/lib/rpm/find-provides \
 		| grep -E "^perl\(" | sed -r -e \
 		's/^perl\(/^/' -e 's/\)[ \t]*(=[ \t]*[.0-9]+)*$$/$$/' \
 		&& cat modules.ignore )| sort |	\
@@ -169,6 +187,7 @@ clean::
 	find * -prune ! -name CVS \
 		! -name Makefile -a 	\
 		! -name modules.build -a\
+		! -name version.mk -a\
 		! -name modules.bootstrap\
 		 -exec rm -rf {} \;
 	-rm -rf .gnupg
