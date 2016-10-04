@@ -1,22 +1,83 @@
-Params::Util
-Sub::Install
-Data::Section
-Module::Signature
-YAML
-HTML::Parser
-HTTP::Date
-HTTP::Message
-HTML::Tagset
-Encode::Locale
-File::Find::Rule
+## These are Modules that are built with CPANtoRPM
+## ORDER is Critical.  Modules are built and installed in the order defined here to 
+## handle prerequisites
+##
+## This uses cpantorpm, which seems to be pretty good. But perl packaging is a nightmare
+## It handles MOST perl modules without issue, some need fixups.
+## forms of entry
+## module                      <- build a module using its defaults. usual case
+## module modname              <- build a module, but name it modname (See LWP as an example)
+## module {<<build-option:value>>}   <- build a module, but pass build-option to to cpantorpm  
+## module {%files\\n ...}      <- build a module, but overwrite the %files section in the RPM Spec file 
+####################################################################
+Spiffy
+IO::HTML
+Test::Deep
 URI
-LWP::MediaTypes
-LWP
-List::MoreUtils
-Path::Class
+Algorithm::Diff
+Encode::Locale
+HTTP::Date
+HTTP::Message {--rem-require:perl(LWP::MediaTypes)}
+HTTP::Cookies
+HTTP::Daemon {--rem-require:perl(LWP::MediaTypes)}
+HTTP::Negotiate
+Net::HTTP
+File::Listing
+WWW::RobotRules 
+LWP libwww-perl {%files\\n/opt/perl/lib/site_perl/5.24.0/*\\n/opt/perl/man/man1/*\\n/opt/perl/man/man3/*\\n/opt/perl/bin/*} {--rem-require:perl(LWP::MediaTypes)}
+YAML {%files\\n/opt/perl/lib/site_perl/5.24.0/*\\n/opt/perl/man/man3/*} 
+App::CPANtoRPM
+MRO::Compat
+Sub::Install
+Params::Util
+Data::OptList
+Capture::Tiny
+Test::FailWarnings
+Sub::Exporter
+Data::Section
+HTML::Tagset
+IO::Tty
+IPC::Run
+Module::Signature
+inc::latest
+Module::Build {--build-type:build} {%files\\n/opt/perl/lib/5.24.0/*\\n/opt/perl/man/man1/*\\n/opt/perl/man/man3/*\\n/opt/perl/bin/*}
+Text::Glob {--build-type:make}
+Number::Compare
+File::Find::Rule
+XSLoader
+Exporter::Tiny
+Try::Tiny
+Test::Fatal {%files\\n/opt/perl/lib/site_perl/5.24.0/*\\n/opt/perl/man/man3/*}
+Test::Warnings
+List::MoreUtils {--rem-require:perl(XSLoader)}
+Test::LeakTrace
+File::Slurper
+Sub::Uplevel
+Test::Exception
+PerlIO::utf8_strict
 Pod::POM
-Readonly
-Software::LicenseUtils
-Text::Autoformat
-Template
+ExtUtils::Config
+ExtUtils::InstallPaths
+ExtUtils::Helpers
+Text::Template
+Software::License {%files\\n/opt/perl/lib/site_perl/5.24.0/*\\n/opt/perl/man/man3/*}
+Text::Reform {--build-type:make}
+Text::Autoformat {--build-type:make}
+Test::Pod
+AppConfig
+Template Template-Toolkit
+IO::Scalar IO-stringy
+Image::Info
+Image::Size
+Devel::Leak
 Tk
+Module::Pluggable
+Log::Message
+Archive::Extract {--rem-require:perl(Module::Load::Conditional)}
+Log::Message::Simple {%files\\n/opt/perl/lib/5.24.0/*\\n/opt/perl/man/man3/*}
+Term::UI
+Object::Accessor
+Package::Constants {%files\\n/opt/perl/lib/5.24.0/*\\n/opt/perl/man/man3/*}
+Socket6
+CPANPLUS
+Log::Log4perl  {--rem-require:perl(File::Path)}
