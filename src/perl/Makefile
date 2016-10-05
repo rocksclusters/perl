@@ -93,7 +93,9 @@ build:
 	( 					\
 		cd $(ARCHIVE_NAME)-$(VERSION);	\
 		./Configure -Dprefix=$(PKGROOT) \
-			-Dusethreads -des < /dev/null;	\
+			-Dusethreads -des 	\
+			-Dotherlibdirs=/opt/perl/lib/perl5/site_perl/$(VERSION) \
+		< /dev/null;	\
 		$(MAKE);			\
 	)
 	
