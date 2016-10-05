@@ -154,7 +154,7 @@ build: .rpmmacros RPMTREE modules.build
 rpm: build 
 	echo "used buildmodules.sh" 
 
-opt-perl-cpan-support.xml:
+opt-perl-cpan-support.xml: modules.build
 	sed -e 's/{.*}//' -e '/^#/d' -e 's/::/-/g' modules.build | \
 	awk 'BEGIN{print "<kickstart>"}; END {print "</kickstart>"}; {print "<package>opt-perl-" $$NF "</package>"}' 
 # Clean out everything that's not Makefile or modules.build or CVS

@@ -73,3 +73,6 @@
 include Rolls.mk
 
 default: roll
+
+preroll::
+	make --quiet -C src/cpan-support opt-perl-cpan-support.xml > nodes/opt-perl-cpan-support.xml
