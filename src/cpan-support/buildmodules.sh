@@ -19,6 +19,9 @@
 #	LWP  libwww-perl
 #       Text::Glob {--build-type:make}
 #	 
+if [ -z "${WORKDIR+x}" ]; then 
+	WORKDIR=/tmp/rpm
+fi
 while read mod
 do
 	# Skip  comment lines in the module file
@@ -65,10 +68,10 @@ do
 	if [ $? -ne 0 ]; then exit $?; fi
 
 	# Download the source tarball for this RPM
-	(cd /tmp/rpm/SOURCES; /opt/perl/bin/cpan -g $modperl)
+	(cd ${WORKDIR}/SOURCES; /opt/perl/bin/cpan -g $modperl)
 
 	# Fix-up the  cpantorpm-generated spec file.
-	SPECFILE=/tmp/rpm/SPECS/opt-perl-${rpmname}.spec
+	SPECFILE=${WORKDIR}/SPECS/opt-perl-${rpmname}.spec
 	/bin/sed -i -e "s#^%setup -T -D#%setup #" -e 's#perl/lib/perl5#perl/lib#g' $SPECFILE
 	if [ $? -ne 0 ]; then
 		exit $?
@@ -78,15 +81,22 @@ do
 		sed -i -e "s#%files#$pkgfiles#" $SPECFILE
 	fi
 
-	rpm="opt-perl-${rpmname}-*"
+	rpm="opt-perl-${rpmname}"
 	
 	# Build the RPM
-	rpmbuild -ba /tmp/rpm/SPECS/opt-perl-${rpmname}.spec
+	rpmbuild -ba ${WORKDIR}/SPECS/${rpm}.spec
 	if [ $? -ne 0 ]; then
 		exit $?
 	fi
 
 	# Install the just-built module. This is to satisfy dependencies for subsequent
 	# builds
-	find /tmp/rpm/RPMS -type f -name $rpm -exec yum -y install {} \; -print
+	if [ ! -f ${WORKDIR}/Makefile ]; then 
+		find ${WORKDIR}/RPMS -type f -name "${rpm}-*" -exec yum -y install {} \; -print
+	else
+		pushd ${WORKDIR}
+		make createlocalrepo
+		yum -c yum.conf -y install ${rpm}
+		popd
+	fi
 done < $1

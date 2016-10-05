@@ -120,79 +120,47 @@
 #
 
 REDHAT.ROOT = $(CURDIR)/../..
-MAKE.iscontrib = 1
--include $(ROCKSROOT)/etc/Rules.mk
-include Rules.mk
-include $(REDHAT.ROOT)/Rules-perl.mk
+
+PERLVERSION = $(shell awk '/^VERSION/{printf("%s",$NF)}' $(CURDIR)/../perl/version.mk)
+
+.rpmmacros:
+	echo "%_topdir $(REDHAT.ROOT)" > .rpmmacros	
+	echo "%__perl /opt/perl/bin/perl" >> .rpmmacros
+
+RPMTREE:
+	if [ ! -d $(REDHAT.ROOT)/SPECS ]; then mkdir $(REDHAT.ROOT)/SPECS; fi
+	if [ ! -d $(REDHAT.ROOT)/SOURCES ]; then mkdir $(REDHAT.ROOT)/SOURCES; fi
+	if [ ! -d $(REDHAT.ROOT)/RPMS ]; then mkdir $(REDHAT.ROOT)/SOURCES; fi
+	if [ ! -d $(REDHAT.ROOT)/SRPMS ]; then mkdir $(REDHAT.ROOT)/SOURCES; fi
 
 
-
-
-# 
-# You can use now RocksReleaseVersion to set the release version of the RPMs
-# builded by cpan see below..
-#
-ifdef RELEASE
-export RocksReleaseVersion = $(RELEASE)
-endif
-
-SEPARATOR = -------------------------------------------------------------
-
-# Target to install all the required CPAN modules
-# for CPANPLUS::Dist::Rocks to function correctly
-# on a vanilla system
+## The following reads the modules required to bootstrap
 bootstrap:
 	cat modules.bootstrap | while read line; do \
 		/opt/perl/bin/cpan $$line < /dev/null; \
 		done
 
-# Make sure we don't build the CPAN modules which are already
-# a part of opt-perl. This is done by creating modules.ignore 
-build:
-	rpm -q --provides opt-perl | \
-		 grep -E "^perl\(" | \
-		sed -r -e \
-		's/^perl\(/^/' -e 's/\)[ \t]*(=[ \t]*[.0-9]+)*$$/$$/' | \
-		sort | grep -v ExtUtils::MakeMaker > modules.ignore;
-
-# Use modules.build and modules.ignore to convert from CPAN to Rocks RPM
-install::
-	cp modules.ignore modules.ignore.tmp
-	cat modules.build | while read line; do \
-		echo $(SEPARATOR) building $$line $(SEPARATOR);\
-		/opt/perl/bin/cpan2dist --format CPANPLUS::Dist::Rocks	\
-		--ignorelist modules.ignore.tmp --buildprereq --force	\
-		--install --verbose $$line < /dev/null;			\
-		( find . -type f -name \*.rpm	\
-		-exec rpm -qlp {} \;	\
-		|/usr/lib/rpm/find-provides \
-		| grep -E "^perl\(" | sed -r -e \
-		's/^perl\(/^/' -e 's/\)[ \t]*(=[ \t]*[.0-9]+)*$$/$$/' \
-		&& cat modules.ignore )| sort |	\
-		uniq > modules.ignore.tmp;	\
-	done
-#	/opt/perl/bin/cpan2dist --format CPANPLUS::Dist::Rocks	\
-#	--ignorelist modules.ignore --buildprereq --force	\
-#	--verbose --install --modulelist modules.build < /dev/null; 
+## This is nasty and more than a bit of manual maintenance, but it works
+## Build will build and install modules in modules.build using buildmodules.sh,
+## which will in turn use cpantorpm. 
+build: .rpmmacros RPMTREE
+	(HOME=$(CURDIR) WORKDIR=$(REDHAT.ROOT) ./buildmodules.sh modules.build)
 
 # Transfer all the RPMS to the Roll RPM  repository.
-rpm:: build install
-	if [ ! -d $(REDHAT.ROOT)/RPMS ]; then mkdir -p $(REDHAT.ROOT)/RPMS; fi
-	for i in `find . -type f -name \*.rpm ! -name \*.src.rpm`; do \
-		rpmname=`basename $$i`; \
-		arch=`echo $$rpmname | awk -F. '{print $$(NF-1);}'`; \
-		echo $$arch; \
-		if [ ! -d $(REDHAT.ROOT)/RPMS/$$arch ]; then \
-			mkdir -p $(REDHAT.ROOT)/RPMS/$$arch; fi; \
-		cp -rvf $$i $(REDHAT.ROOT)/RPMS/$$arch; \
-	done
+modules: build 
+	echo "used buildmodules.sh" 
 
 # Clean out everything that's not Makefile or modules.build or CVS
 clean::
 	find * -prune ! -name CVS \
 		! -name Makefile -a 	\
 		! -name modules.build -a\
+		! -name modules.build.in -a\
+		! -name buildmodules.sh -a\
 		! -name version.mk -a\
 		! -name modules.bootstrap\
 		 -exec rm -rf {} \;
-	-rm -rf .gnupg
+	-rm -rf .gnupg .cpan .cpanplus
+
+set:
+	echo "PERLVERSION:$(PERLVERSION)" 
