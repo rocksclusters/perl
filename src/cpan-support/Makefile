@@ -121,7 +121,7 @@
 
 REDHAT.ROOT = $(CURDIR)/../..
 
-PERLVERSION = $(shell awk '/^VERSION/{printf("%s",$NF)}' $(CURDIR)/../perl/version.mk)
+PERLVERSION = $(shell awk '/^VERSION/{printf("%s",$$NF)}' $(CURDIR)/../perl/version.mk)
 
 .rpmmacros:
 	echo "%_topdir $(REDHAT.ROOT)" > .rpmmacros	
@@ -143,24 +143,29 @@ bootstrap:
 ## This is nasty and more than a bit of manual maintenance, but it works
 ## Build will build and install modules in modules.build using buildmodules.sh,
 ## which will in turn use cpantorpm. 
-build: .rpmmacros RPMTREE
+
+modules.build: modules.build.in
+	sed 's/@PERLVERSION@/$(PERLVERSION)/g' modules.build.in > modules.build
+
+build: .rpmmacros RPMTREE modules.build
 	(HOME=$(CURDIR) WORKDIR=$(REDHAT.ROOT) ./buildmodules.sh modules.build)
 
 # Transfer all the RPMS to the Roll RPM  repository.
-modules: build 
+rpm: build 
 	echo "used buildmodules.sh" 
 
+opt-perl-cpan-support.xml:
+	sed -e 's/{.*}//' -e '/^#/d' -e 's/::/-/g' modules.build | \
+	awk 'BEGIN{print "<kickstart>"}; END {print "</kickstart>"}; {print "<package>opt-perl-" $$NF "</package>"}' 
 # Clean out everything that's not Makefile or modules.build or CVS
 clean::
 	find * -prune ! -name CVS \
 		! -name Makefile -a 	\
-		! -name modules.build -a\
 		! -name modules.build.in -a\
 		! -name buildmodules.sh -a\
 		! -name version.mk -a\
 		! -name modules.bootstrap\
 		 -exec rm -rf {} \;
 	-rm -rf .gnupg .cpan .cpanplus
-
 set:
-	echo "PERLVERSION:$(PERLVERSION)" 
+	echo $(PERLVERSION)

@@ -24,8 +24,8 @@ HTTP::Negotiate
 Net::HTTP
 File::Listing
 WWW::RobotRules 
-LWP libwww-perl {%files\\n/opt/perl/lib/site_perl/5.24.0/*\\n/opt/perl/man/man1/*\\n/opt/perl/man/man3/*\\n/opt/perl/bin/*} {--rem-require:perl(LWP::MediaTypes)}
-YAML {%files\\n/opt/perl/lib/site_perl/5.24.0/*\\n/opt/perl/man/man3/*} 
+LWP libwww-perl {%files\\n/opt/perl/lib/site_perl/@PERLVERSION@/*\\n/opt/perl/man/man1/*\\n/opt/perl/man/man3/*\\n/opt/perl/bin/*} {--rem-require:perl(LWP::MediaTypes)}
+YAML {%files\\n/opt/perl/lib/site_perl/@PERLVERSION@/*\\n/opt/perl/man/man3/*} 
 App::CPANtoRPM
 MRO::Compat
 Sub::Install
@@ -40,14 +40,14 @@ IO::Tty
 IPC::Run
 Module::Signature
 inc::latest
-Module::Build {--build-type:build} {%files\\n/opt/perl/lib/5.24.0/*\\n/opt/perl/man/man1/*\\n/opt/perl/man/man3/*\\n/opt/perl/bin/*}
+Module::Build {--build-type:build} {%files\\n/opt/perl/lib/@PERLVERSION@/*\\n/opt/perl/man/man1/*\\n/opt/perl/man/man3/*\\n/opt/perl/bin/*}
 Text::Glob {--build-type:make}
 Number::Compare
 File::Find::Rule
 XSLoader
 Exporter::Tiny
 Try::Tiny
-Test::Fatal {%files\\n/opt/perl/lib/site_perl/5.24.0/*\\n/opt/perl/man/man3/*}
+Test::Fatal {%files\\n/opt/perl/lib/site_perl/@PERLVERSION@/*\\n/opt/perl/man/man3/*}
 Test::Warnings
 List::MoreUtils {--rem-require:perl(XSLoader)}
 Test::LeakTrace
@@ -60,7 +60,7 @@ ExtUtils::Config
 ExtUtils::InstallPaths
 ExtUtils::Helpers
 Text::Template
-Software::License {%files\\n/opt/perl/lib/site_perl/5.24.0/*\\n/opt/perl/man/man3/*}
+Software::License {%files\\n/opt/perl/lib/site_perl/@PERLVERSION@/*\\n/opt/perl/man/man3/*}
 Text::Reform {--build-type:make}
 Text::Autoformat {--build-type:make}
 Test::Pod
@@ -74,10 +74,10 @@ Tk
 Module::Pluggable
 Log::Message
 Archive::Extract {--rem-require:perl(Module::Load::Conditional)}
-Log::Message::Simple {%files\\n/opt/perl/lib/5.24.0/*\\n/opt/perl/man/man3/*}
+Log::Message::Simple {%files\\n/opt/perl/lib/@PERLVERSION@/*\\n/opt/perl/man/man3/*}
 Term::UI
 Object::Accessor
-Package::Constants {%files\\n/opt/perl/lib/5.24.0/*\\n/opt/perl/man/man3/*}
+Package::Constants {%files\\n/opt/perl/lib/@PERLVERSION@/*\\n/opt/perl/man/man3/*}
 Socket6
 CPANPLUS
 Log::Log4perl  {--rem-require:perl(File::Path)}

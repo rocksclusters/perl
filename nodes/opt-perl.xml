@@ -30,7 +30,6 @@
 	</changelog>
 
 	<package>opt-perl</package>
-	<package>rocks-cpan</package>
 	<package>roll-perl-usersguide</package>
 
 

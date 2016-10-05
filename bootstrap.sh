@@ -84,7 +84,4 @@ fi
 compile perl
 install opt-perl
 
-compile cpan
-install rocks-cpan
-
 (cd src/cpan-support && gmake bootstrap)
