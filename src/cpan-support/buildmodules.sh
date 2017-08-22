@@ -19,6 +19,22 @@
 #	LWP  libwww-perl
 #       Text::Glob {--build-type:make}
 #	 
+cleanup()
+{
+	if [ "x$OLDPATH" != "x" ]; then
+		export PATH=$OLDPATH
+	fi
+}
+sighandler()
+{
+	cleanup
+	exit 0
+}
+export OLDPATH=$PATH
+export PATH=/opt/perl/bin/:$PATH
+trap 'sighandler' QUIT
+trap 'sighandler' INT
+
 if [ -z "${WORKDIR+x}" ]; then 
 	WORKDIR=/tmp/rpm
 fi
@@ -65,7 +81,7 @@ do
 		/usr/bin/yes | /opt/perl/bin/cpantorpm  $buildflags --add-require "opt-perl" --install-base /opt/perl --prefix opt-perl- --packager Rocks --spec-only $modperl
 		if [ $? -eq 0 ]; then break; fi
 	done
-	if [ $? -ne 0 ]; then exit $?; fi
+	if [ $? -ne 0 ]; then code=$?; cleanup; exit $code; fi
 
 	# Download the source tarball for this RPM
 	(cd ${WORKDIR}/SOURCES; /opt/perl/bin/cpan -g $modperl)
@@ -74,7 +90,9 @@ do
 	SPECFILE=${WORKDIR}/SPECS/opt-perl-${rpmname}.spec
 	/bin/sed -i -e "s#^%setup -T -D#%setup #" -e 's#perl/lib/perl5#perl/lib#g' $SPECFILE
 	if [ $? -ne 0 ]; then
-		exit $?
+		code = $?
+		cleanup
+		exit $code
 	fi
 	if [ "x$pkgfiles" != "x" ]; then
 		"echo overriding files in package spec ${SPECFILE}" 
@@ -86,7 +104,9 @@ do
 	# Build the RPM
 	rpmbuild -ba ${WORKDIR}/SPECS/${rpm}.spec
 	if [ $? -ne 0 ]; then
-		exit $?
+		code = $?
+		cleanup
+		exit $code
 	fi
 
 	# Install the just-built module. This is to satisfy dependencies for subsequent
@@ -100,3 +120,4 @@ do
 		popd
 	fi
 done < $1
+cleanup

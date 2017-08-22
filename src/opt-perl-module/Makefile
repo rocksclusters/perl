@@ -1,7 +1,6 @@
-#!/bin/bash
-
-# $Id: bootstrap.sh,v 1.4 2012/11/27 00:49:11 phil Exp $
-
+#
+# $Id: Makefile,v 1.2 2012/11/27 00:49:01 phil Exp $
+#
 # @Copyright@
 # 
 # 				Rocks(r)
@@ -54,34 +53,28 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # 
 # @Copyright@
-
-# $Log: bootstrap.sh,v $
-# Revision 1.4  2012/11/27 00:49:11  phil
-# Copyright Storm for Emerald Boa
-#
-# Revision 1.3  2012/05/06 05:49:18  phil
-# Copyright Storm for Mamba
-#
-# Revision 1.2  2011/07/23 02:31:15  phil
-# Viper Copyright
-#
-# Revision 1.1  2011/06/16 18:00:27  anoop
-# Start of a perl roll
 #
 
-if [ ! -f "$ROLLSROOT/../../bin/get_sources.sh" ]; then
-	echo "To compile this roll on Rocks 6.1.1 or older you need to install a newer rocks-devel rpm.
-Install it with:
-rpm -Uvh https://googledrive.com/host/0B0LD0shfkvCRRGtadUFTQkhoZWs/rocks-devel-6.2-3.x86_64.rpm
-If you need an older version of this roll you can get it from:
-https://github.com/rocksclusters-attic"
-	exit 1
-fi
+PKGROOT = /usr/share/Modules/modulefiles
+REDHAT.ROOT = $(CURDIR)/../../
 
-. $ROLLSROOT/etc/bootstrap-functions.sh
+-include $(ROCKSROOT)/etc/Rules.mk
+include Rules.mk
 
+MODULESFILES = opt-perl
 
-compile perl
-install opt-perl
+%: %.in
+	$(SED) $(SEDSCRIPT) $^ > $@
 
-(cd src/cpan-support && make bootstrap)
+pretar:: $(VERSION.MK.INCLUDE)
+
+build: $(MODULESFILES)
+
+install:: $(MODULESFILES)
+	mkdir -p $(ROOT)/$(PKGROOT)
+	install -m 755 $(MODULESFILES) $(ROOT)/$(PKGROOT)
+
+clean::
+	rm -rf $(NAME).spec.in
+	rm -rf $(MODULESFILES)
+

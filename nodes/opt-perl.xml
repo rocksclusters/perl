@@ -30,6 +30,7 @@
 	</changelog>
 
 	<package>opt-perl</package>
+	<package>opt-perl-module</package>
 	<package>roll-perl-usersguide</package>
 
 

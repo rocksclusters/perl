@@ -1,0 +1,23 @@
+#%Module1.0#####################################################################
+##
+## opt-perl modulefile
+##
+## modulefiles/
+##
+proc ModulesHelp { } {
+	global perlversion 
+
+	puts stderr "\t Use /opt/perl/bin/perl as your Perl"
+	puts stderr "\n\tVersion $perlversion\n"
+}
+
+module-whatis	"opt-perl"
+module-whatis	"Version: @VERSION@"
+
+# for Tcl script use only
+set	perlversion @VERSION@
+
+prepend-path PATH /opt/perl/bin
+prepend-path LD_LIBRARY_PATH /opt/perl/lib
+prepend-path LIBPATH /opt/perl/lib
+prepend-path MANPATH /opt/perl/share/man

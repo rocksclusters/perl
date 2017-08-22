@@ -1,66 +1,72 @@
-<?xml version="1.0" standalone="no"?>
 <kickstart>
-	<copyright>
-	Copyright (c) 2000 - 2014 The Regents of the University of California.
-	All rights reserved. Rocks(r) 6.2 www.rocksclusters.org
-	
-	</copyright>
-
-	<changelog>
-	$Log: opt-perl-cpan-support.xml,v $
-	Revision 1.3  2012/05/06 05:49:18  phil
-	Copyright Storm for Mamba
-	
-	Revision 1.2  2011/07/23 02:31:15  phil
-	Viper Copyright
-	
-	Revision 1.1  2011/07/20 20:29:47  anoop
-	cpan-support finally in.
-	
-	</changelog>
-
-	<description>
-	$Id: opt-perl-cpan-support.xml,v 1.3 2012/05/06 05:49:18 phil Exp $
-	This maintains a list of all cpan support utilities that
-	enables the users to convert CPAN modules to Rocks RPMs
-	</description>
-
-	<package>opt-perl-Params-Util</package>
-	<package>opt-perl-HTML-Parser</package>
-	<package>opt-perl-Template-Toolkit</package>
-	<package>opt-perl-Tk</package>
-	<package>opt-perl-List-MoreUtils</package>
-	<package>opt-perl-Text-Glob</package>
-	<package>opt-perl-Encode-Locale</package>
-	<package>opt-perl-Module-Signature</package>
-	<package>opt-perl-File-Find-Rule</package>
-	<package>opt-perl-HTTP-Negotiate</package>
-	<package>opt-perl-IPC-Run</package>
-	<package>opt-perl-HTTP-Message</package>
-	<package>opt-perl-HTTP-Date</package>
-	<package>opt-perl-Number-Compare</package>
-	<package>opt-perl-LWP-MediaTypes</package>
-	<package>opt-perl-Sub-Install</package>
-	<package>opt-perl-Readonly</package>
-	<package>opt-perl-URI</package>
-	<package>opt-perl-Text-Autoformat</package>
-	<package>opt-perl-Data-OptList</package>
-	<package>opt-perl-MRO-Compat</package>
-	<package>opt-perl-libwww-perl</package>
-	<package>opt-perl-YAML</package>
-	<package>opt-perl-Sub-Exporter</package>
-	<package>opt-perl-HTTP-Cookies</package>
-	<package>opt-perl-Pod-POM</package>
-	<package>opt-perl-Text-Reform</package>
-	<package>opt-perl-HTML-Tagset</package>
-	<package>opt-perl-Path-Class</package>
-	<package>opt-perl-Net-HTTP</package>
-	<package>opt-perl-File-Listing</package>
-	<package>opt-perl-WWW-RobotRules</package>
-	<package>opt-perl-HTTP-Daemon</package>
-	<package>opt-perl-Text-Template</package>
-	<package>opt-perl-File-Slurp</package>
-	<package>opt-perl-AppConfig</package>
-	<package>opt-perl-Data-Section</package>
-	<package>opt-perl-Software-License</package>
+<package>opt-perl-Spiffy</package>
+<package>opt-perl-IO-HTML</package>
+<package>opt-perl-Test-Deep</package>
+<package>opt-perl-URI</package>
+<package>opt-perl-Algorithm-Diff</package>
+<package>opt-perl-Encode-Locale</package>
+<package>opt-perl-HTTP-Date</package>
+<package>opt-perl-HTTP-Message</package>
+<package>opt-perl-HTTP-Cookies</package>
+<package>opt-perl-HTTP-Daemon</package>
+<package>opt-perl-HTTP-Negotiate</package>
+<package>opt-perl-Net-HTTP</package>
+<package>opt-perl-File-Listing</package>
+<package>opt-perl-WWW-RobotRules</package>
+<package>opt-perl-libwww-perl</package>
+<package>opt-perl-YAML</package>
+<package>opt-perl-App-CPANtoRPM</package>
+<package>opt-perl-MRO-Compat</package>
+<package>opt-perl-Sub-Install</package>
+<package>opt-perl-Params-Util</package>
+<package>opt-perl-Data-OptList</package>
+<package>opt-perl-Capture-Tiny</package>
+<package>opt-perl-Test-FailWarnings</package>
+<package>opt-perl-Sub-Exporter</package>
+<package>opt-perl-Data-Section</package>
+<package>opt-perl-HTML-Tagset</package>
+<package>opt-perl-IO-Tty</package>
+<package>opt-perl-IPC-Run</package>
+<package>opt-perl-Module-Signature</package>
+<package>opt-perl-inc-latest</package>
+<package>opt-perl-Module-Build</package>
+<package>opt-perl-Text-Glob</package>
+<package>opt-perl-Number-Compare</package>
+<package>opt-perl-File-Find-Rule</package>
+<package>opt-perl-XSLoader</package>
+<package>opt-perl-Exporter-Tiny</package>
+<package>opt-perl-Try-Tiny</package>
+<package>opt-perl-Test-Fatal</package>
+<package>opt-perl-Test-Warnings</package>
+<package>opt-perl-List-MoreUtils</package>
+<package>opt-perl-Test-LeakTrace</package>
+<package>opt-perl-File-Slurper</package>
+<package>opt-perl-Sub-Uplevel</package>
+<package>opt-perl-Test-Exception</package>
+<package>opt-perl-PerlIO-utf8_strict</package>
+<package>opt-perl-Pod-POM</package>
+<package>opt-perl-ExtUtils-Config</package>
+<package>opt-perl-ExtUtils-InstallPaths</package>
+<package>opt-perl-ExtUtils-Helpers</package>
+<package>opt-perl-Text-Template</package>
+<package>opt-perl-Software-License</package>
+<package>opt-perl-Text-Reform</package>
+<package>opt-perl-Text-Autoformat</package>
+<package>opt-perl-Test-Pod</package>
+<package>opt-perl-AppConfig</package>
+<package>opt-perl-Template-Toolkit</package>
+<package>opt-perl-IO-stringy</package>
+<package>opt-perl-Image-Info</package>
+<package>opt-perl-Image-Size</package>
+<package>opt-perl-Devel-Leak</package>
+<package>opt-perl-Module-Pluggable</package>
+<package>opt-perl-Log-Message</package>
+<package>opt-perl-Archive-Extract</package>
+<package>opt-perl-Log-Message-Simple</package>
+<package>opt-perl-Term-UI</package>
+<package>opt-perl-Object-Accessor</package>
+<package>opt-perl-Package-Constants</package>
+<package>opt-perl-Socket6</package>
+<package>opt-perl-CPANPLUS</package>
+<package>opt-perl-Log-Log4perl</package>
 </kickstart>

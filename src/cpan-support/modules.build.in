@@ -23,6 +23,7 @@ HTTP::Daemon {--rem-require:perl(LWP::MediaTypes)}
 HTTP::Negotiate
 Net::HTTP
 File::Listing
+Try::Tiny
 WWW::RobotRules 
 LWP libwww-perl {%files\\n/opt/perl/lib/site_perl/@PERLVERSION@/*\\n/opt/perl/man/man1/*\\n/opt/perl/man/man3/*\\n/opt/perl/bin/*} {--rem-require:perl(LWP::MediaTypes)}
 YAML {%files\\n/opt/perl/lib/site_perl/@PERLVERSION@/*\\n/opt/perl/man/man3/*} 
@@ -38,17 +39,22 @@ Data::Section
 HTML::Tagset
 IO::Tty
 IPC::Run
-Module::Signature
+File::Remove
+Module::Build {--build-type:build} {%files\\n/opt/perl/lib/site_perl/@PERLVERSION@/*\\n/opt/perl/man/man1/*\\n/opt/perl/man/man3/*\\n/opt/perl/bin/*}
+Test::Requires
+Module::ScanDeps
+YAML::Tiny
+Module::Install
 inc::latest
-Module::Build {--build-type:build} {%files\\n/opt/perl/lib/@PERLVERSION@/*\\n/opt/perl/man/man1/*\\n/opt/perl/man/man3/*\\n/opt/perl/bin/*}
-Text::Glob {--build-type:make}
+Module::Signature
 Number::Compare
+Text::Glob {--build-type:make}
 File::Find::Rule
 XSLoader
 Exporter::Tiny
-Try::Tiny
 Test::Fatal {%files\\n/opt/perl/lib/site_perl/@PERLVERSION@/*\\n/opt/perl/man/man3/*}
 Test::Warnings
+List::MoreUtils::XS
 List::MoreUtils {--rem-require:perl(XSLoader)}
 Test::LeakTrace
 File::Slurper
@@ -70,14 +76,14 @@ IO::Scalar IO-stringy
 Image::Info
 Image::Size
 Devel::Leak
-Tk
+## Tk 
 Module::Pluggable
 Log::Message
 Archive::Extract {--rem-require:perl(Module::Load::Conditional)}
-Log::Message::Simple {%files\\n/opt/perl/lib/@PERLVERSION@/*\\n/opt/perl/man/man3/*}
+Log::Message::Simple {%files\\n/opt/perl/lib/site_perl/@PERLVERSION@/*\\n/opt/perl/man/man3/*}
 Term::UI
 Object::Accessor
-Package::Constants {%files\\n/opt/perl/lib/@PERLVERSION@/*\\n/opt/perl/man/man3/*}
+Package::Constants {%files\\n/opt/perl/lib/site_perl/@PERLVERSION@/*\\n/opt/perl/man/man3/*}
 Socket6
 CPANPLUS
 Log::Log4perl  {--rem-require:perl(File::Path)}
