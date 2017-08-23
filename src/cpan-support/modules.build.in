@@ -18,6 +18,7 @@ HTML::Parser
 URI
 Algorithm::Diff
 Encode::Locale
+Date::Language
 HTTP::Date
 HTTP::Message {--rem-require:perl(LWP::MediaTypes)}
 HTTP::Cookies
