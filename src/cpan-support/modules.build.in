@@ -12,7 +12,9 @@
 ####################################################################
 Spiffy
 IO::HTML
+Test::Base
 Test::Deep
+HTML::Parser
 URI
 Algorithm::Diff
 Encode::Locale
