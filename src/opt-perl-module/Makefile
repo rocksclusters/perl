@@ -66,7 +66,7 @@ MODULESFILES = opt-perl
 %: %.in
 	$(SED) $(SEDSCRIPT) $^ > $@
 
-pretar:: $(VERSION.MK.INCLUDE)
+pretar:: $(MODULESFILES)
 
 build: $(MODULESFILES)
 

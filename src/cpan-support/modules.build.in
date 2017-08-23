@@ -47,11 +47,11 @@ Module::ScanDeps
 YAML::Tiny
 Module::Install
 inc::latest
+Number::Compare
 Module::Signature
 Number::Compare
 Text::Glob {--build-type:make}
 File::Find::Rule
-XSLoader
 Exporter::Tiny
 Test::Fatal {%files\\n/opt/perl/lib/site_perl/@PERLVERSION@/*\\n/opt/perl/man/man3/*}
 Test::Warnings

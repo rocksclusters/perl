@@ -3,11 +3,9 @@
 <package>opt-perl-IO-HTML</package>
 <package>opt-perl-Test-Base</package>
 <package>opt-perl-Test-Deep</package>
-<package>opt-perl-HTML-Parser</package>
 <package>opt-perl-URI</package>
 <package>opt-perl-Algorithm-Diff</package>
 <package>opt-perl-Encode-Locale</package>
-<package>opt-perl-Date-Language</package>
 <package>opt-perl-HTTP-Date</package>
 <package>opt-perl-HTTP-Message</package>
 <package>opt-perl-HTTP-Cookies</package>
@@ -38,11 +36,11 @@
 <package>opt-perl-YAML-Tiny</package>
 <package>opt-perl-Module-Install</package>
 <package>opt-perl-inc-latest</package>
+<package>opt-perl-Number-Compare</package>
 <package>opt-perl-Module-Signature</package>
 <package>opt-perl-Number-Compare</package>
 <package>opt-perl-Text-Glob</package>
 <package>opt-perl-File-Find-Rule</package>
-<package>opt-perl-XSLoader</package>
 <package>opt-perl-Exporter-Tiny</package>
 <package>opt-perl-Test-Fatal</package>
 <package>opt-perl-Test-Warnings</package>
