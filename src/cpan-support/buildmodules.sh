@@ -90,7 +90,7 @@ do
 	SPECFILE=${WORKDIR}/SPECS/opt-perl-${rpmname}.spec
 	/bin/sed -i -e "s#^%setup -T -D#%setup #" -e 's#perl/lib/perl5#perl/lib#g' $SPECFILE
 	if [ $? -ne 0 ]; then
-		code = $?
+		code=$?
 		cleanup
 		exit $code
 	fi
@@ -104,7 +104,7 @@ do
 	# Build the RPM
 	rpmbuild -ba ${WORKDIR}/SPECS/${rpm}.spec
 	if [ $? -ne 0 ]; then
-		code = $?
+		code=$?
 		cleanup
 		exit $code
 	fi
