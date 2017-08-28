@@ -82,10 +82,19 @@
 #
 
 REDHAT.ROOT = $(CURDIR)/../../
+include version.mk.in
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
+EXTRAS = "RPM.EXTRAS = AutoReqProv: no\\n"
 
+rpm:: version.mk
+
+version.mk: extras.mk version.mk.in
+	cat version.mk.in extras.mk > version.mk
+
+extras.mk:
+	cat provides-$(VERSION) | python -c 'import sys;print $(EXTRAS) + "Provides: " + "Provides: ".join(sys.stdin.readlines()).replace("\n","\\n")' > extras.mk
 
 build:
 	gunzip -c $(ARCHIVE_NAME)-$(VERSION).$(TARBALL_POSTFIX) | $(TAR) -xf -
@@ -108,3 +117,4 @@ install::
 
 clean::
 	rm -rf $(ARCHIVE_NAME)-$(VERSION)
+	-rm extras.mk version.mk
