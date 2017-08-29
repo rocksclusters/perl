@@ -83,5 +83,6 @@ fi
 
 compile perl
 install opt-perl
+compile_and_install opt-perl-module
 
 (cd src/cpan-support && make bootstrap)
