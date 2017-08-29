@@ -1,0 +1,2 @@
+/Requires:.*opt-perl.*[>=]+/{next};
+{print}

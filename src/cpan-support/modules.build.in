@@ -14,7 +14,7 @@ Spiffy
 IO::HTML
 Test::Base
 Test::Deep
-URI
+URI {--rem-require:opt-perl}
 Algorithm::Diff
 Encode::Locale
 HTTP::Date
@@ -25,6 +25,7 @@ HTTP::Negotiate
 Net::HTTP
 File::Listing
 Try::Tiny
+HTML::Parser
 WWW::RobotRules 
 LWP libwww-perl {%files\\n/opt/perl/lib/site_perl/@PERLVERSION@/*\\n/opt/perl/man/man1/*\\n/opt/perl/man/man3/*\\n/opt/perl/bin/*} {--rem-require:perl(LWP::MediaTypes)}
 YAML {%files\\n/opt/perl/lib/site_perl/@PERLVERSION@/*\\n/opt/perl/man/man3/*} 
@@ -72,6 +73,8 @@ Text::Reform {--build-type:make}
 Text::Autoformat {--build-type:make}
 Test::Pod
 AppConfig
+Test::Warn
+CGI
 Template Template-Toolkit
 IO::Scalar IO-stringy
 Image::Info

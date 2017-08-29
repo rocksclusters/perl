@@ -165,6 +165,7 @@ clean::
 		! -name buildmodules.sh -a\
 		! -name version.mk -a\
 		! -name modules.bootstrap\
+		! -name remrequires\
 		 -exec rm -rf {} \;
 	-rm -rf .gnupg .cpan .cpanplus
 set:

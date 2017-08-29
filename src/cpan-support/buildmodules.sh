@@ -21,17 +21,14 @@
 #	 
 cleanup()
 {
-	if [ "x$OLDPATH" != "x" ]; then
-		export PATH=$OLDPATH
-	fi
+	module unload opt-perl
 }
 sighandler()
 {
 	cleanup
 	exit 0
 }
-export OLDPATH=$PATH
-export PATH=/opt/perl/bin/:$PATH
+module load opt-perl
 trap 'sighandler' QUIT
 trap 'sighandler' INT
 
@@ -89,6 +86,9 @@ do
 	# Fix-up the  cpantorpm-generated spec file.
 	SPECFILE=${WORKDIR}/SPECS/opt-perl-${rpmname}.spec
 	/bin/sed -i -e "s#^%setup -T -D#%setup #" -e 's#perl/lib/perl5#perl/lib#g' $SPECFILE
+	SPECFILETMP=$SPECFILE.$$
+	awk -- '/Provides:[[:space:]]+perl/{print gensub("perl","opt-perl",1);next} /Requires:[[:space:]]+perl/{print gensub("perl","opt-perl",1);next} {print}' $SPECFILE > $SPECFILETMP
+	awk -f remrequires $SPECFILETMP > $SPECFILE
 	if [ $? -ne 0 ]; then
 		code=$?
 		cleanup
