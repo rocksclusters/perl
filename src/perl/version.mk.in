@@ -1,6 +1,7 @@
 PKGROOT		= /opt/perl
 NAME    	= opt-perl
 ARCHIVE_NAME	= perl
+## Note: Version should be updated in Makefile, too
 VERSION		= 5.26.0
 PERLVERSION	= 5.014002
 RELEASE 	= 1

@@ -1,7 +1,4 @@
-opt-perl = 5.26.0
-opt-perl = 5.26.0-1
 opt-perl(:MODULE_COMPAT_5.26.0)
-opt-perl(x86-64) = 5.26.0-1
 opt-perl(AnyDBM_File) = 1.01
 opt-perl(App::Cpan) = 1.66
 opt-perl(App::Prove) = 3.38

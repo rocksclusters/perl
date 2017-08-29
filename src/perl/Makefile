@@ -82,13 +82,13 @@
 #
 
 REDHAT.ROOT = $(CURDIR)/../../
-include version.mk.in
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 EXTRAS = "RPM.EXTRAS = AutoReqProv: no\\n"
+VERSION = 5.26.0
 
-rpm:: version.mk
+prespec:: version.mk
 
 version.mk: extras.mk version.mk.in
 	cat version.mk.in extras.mk > version.mk
