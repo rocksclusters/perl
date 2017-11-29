@@ -14,6 +14,7 @@
 <package>opt-perl-Net-HTTP</package>
 <package>opt-perl-File-Listing</package>
 <package>opt-perl-Try-Tiny</package>
+<package>opt-perl-HTML-Parser</package>
 <package>opt-perl-WWW-RobotRules</package>
 <package>opt-perl-libwww-perl</package>
 <package>opt-perl-YAML</package>
@@ -61,6 +62,8 @@
 <package>opt-perl-Text-Autoformat</package>
 <package>opt-perl-Test-Pod</package>
 <package>opt-perl-AppConfig</package>
+<package>opt-perl-Test-Warn</package>
+<package>opt-perl-CGI</package>
 <package>opt-perl-Template-Toolkit</package>
 <package>opt-perl-IO-stringy</package>
 <package>opt-perl-Image-Info</package>
